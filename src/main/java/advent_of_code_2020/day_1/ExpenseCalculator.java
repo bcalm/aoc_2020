@@ -22,18 +22,13 @@ public class ExpenseCalculator {
     private Integer calculate(List<Integer> expensesList) {
         for (Integer entry1 : expensesList) {
             for (Integer entry2 : expensesList) {
-                for (Integer entry3 : expensesList) {
-                    if (areCorrectEntities(entry1, entry2, entry3)) {
-                        return entry1 * entry2 * entry3;
-                    }
+                int expectedEntity = EXPECTED_SUM - entry1 - entry2;
+                if (expensesList.contains(expectedEntity)) {
+                    return entry1 * entry2 * expectedEntity;
                 }
             }
         }
         return null;
-    }
-
-    private boolean areCorrectEntities(Integer entry1, Integer entry2, Integer entry3) {
-        return entry1 + entry2 + entry3 == EXPECTED_SUM;
     }
 
     private List<Integer> getDesiredFormat() {
