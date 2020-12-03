@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class PasswordAnalyzer {
     private final String inputs;
 
@@ -14,13 +13,9 @@ public class PasswordAnalyzer {
 
     public int getCorrectPasswordCount() {
         List<PasswordPattern> passwordPatterns = parseInput(inputs);
-        int correctPasswordCount = 0;
-        for (PasswordPattern passwordPattern : passwordPatterns) {
-            if(isCorrectPassword(passwordPattern)){
-                correctPasswordCount++;
-            }
-        }
-        return correctPasswordCount;
+        return (int) passwordPatterns.stream()
+                .filter(this::isCorrectPassword)
+                .count();
     }
 
     private boolean isCorrectPassword(PasswordPattern passwordPattern) {
@@ -30,13 +25,9 @@ public class PasswordAnalyzer {
     }
 
     private int getCharacterCount(String password, String expectedCharacter) {
-        int count = 0;
-        for (String character : password.split("")) {
-            if (character.equals(expectedCharacter)) {
-                count++;
-            }
-        }
-        return count;
+        return (int) Arrays.stream(password.split(""))
+                .filter((character)->character.equals(expectedCharacter))
+                .count();
     }
 
     private List<PasswordPattern> parseInput(String inputs) {
