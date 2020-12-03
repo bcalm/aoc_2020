@@ -19,15 +19,13 @@ public class PasswordAnalyzer {
     }
 
     private boolean isCorrectPassword(PasswordPattern passwordPattern) {
-        int characterOccurrence = getCharacterCount(passwordPattern.getPassword(), passwordPattern.getCharacter());
-        return characterOccurrence >= passwordPattern.getMinOccurrence()
-                && characterOccurrence <= passwordPattern.getMaxOccurrence();
-    }
-
-    private int getCharacterCount(String password, String expectedCharacter) {
-        return (int) Arrays.stream(password.split(""))
-                .filter((character)->character.equals(expectedCharacter))
-                .count();
+        String expectedCharacter = passwordPattern.getCharacter();
+        String password = passwordPattern.getPassword();
+        int firstIndex = passwordPattern.getFirstOccurrenceIndex() - 1;
+        int lastIndex = passwordPattern.getLastOccurrenceIndex() - 1;
+        boolean isFirstPositionValid = String.valueOf(password.charAt(firstIndex)).equals(expectedCharacter);
+        boolean isLastPositionValid = String.valueOf(password.charAt(lastIndex)).equals(expectedCharacter);
+        return isFirstPositionValid && !isLastPositionValid || !isFirstPositionValid && isLastPositionValid;
     }
 
     private List<PasswordPattern> parseInput(String inputs) {

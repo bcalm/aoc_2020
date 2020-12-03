@@ -13,11 +13,11 @@ public class PasswordPattern {
     }
 
 
-    public int getMinOccurrence(){
+    public int getFirstOccurrenceIndex(){
         return Integer.parseInt(this.characterOccurrence[0]);
     }
 
-    public int getMaxOccurrence(){
+    public int getLastOccurrenceIndex(){
         return Integer.parseInt(this.characterOccurrence[1]);
     }
 
