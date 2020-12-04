@@ -3,16 +3,17 @@
  */
 package advent_of_code_2020;
 
-import advent_of_code_2020.day_2.PasswordAnalyzer;
+import advent_of_code_2020.day_3.RouteFinder;
 import advent_of_code_2020.utils.FileHelper;
 
 public class App {
 
     public static void main(String[] args) {
-        String filePath = "/Users/vikramsingh/work/advent_of_code_2020/src/main/resources/passwordPhiloshphy.txt";
+        String filePath = "/Users/vikramsingh/work/advent_of_code_2020/src/main/resources/tobogganTrajectory.txt";
         FileHelper fileHelper = new FileHelper(filePath);
         String inputs = fileHelper.getInputs();
-        PasswordAnalyzer passwordAnalyzer = new PasswordAnalyzer(inputs);
-        System.out.println(passwordAnalyzer.getCorrectPasswordCount());
+        RouteFinder routeFinder = new RouteFinder(inputs);
+        System.out.println(routeFinder.nbOfEncounteredTrees());
+
     }
 }
