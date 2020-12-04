@@ -17,15 +17,23 @@ public class RouteFinder {
         return input.repeat(REPEATED_COUNT);
     }
 
-    public int nbOfEncounteredTrees() {
+    public long nbOfEncounteredTrees() {
+        int[][] steps = {{1, 1}, {3, 1}, {5, 1}, {7, 1}, {1, 2}};
+        return Arrays.stream(steps)
+                .mapToLong(step -> getEncounteredTree(step[0], step[1]))
+                .reduce(1, (a, b) -> a * b);
+    }
+
+    private int getEncounteredTree(int rightSteps, int downSteps) {
         List<String> trajectory = parseInput(inputs);
         int colIndex = 0;
         int encounteredTree = 0;
-        for (String path : trajectory) {
+        for (int index = 0; index < trajectory.size(); index += downSteps) {
+            String path = trajectory.get(index);
             if (isTree(path.split("")[colIndex])) {
                 encounteredTree++;
             }
-            colIndex += 3;
+            colIndex += rightSteps;
         }
         return encounteredTree;
     }
