@@ -2,6 +2,7 @@ package advent_of_code_2020.day_5;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class SeatFinder {
@@ -13,40 +14,16 @@ public class SeatFinder {
     }
 
     public int getHighestSeatId() {
-        List<String> seatIds = parseInput();
-        int highestSeatId = 0;
-        for (String seat : seatIds) {
-            int row = calculateRow(seat.substring(0, 7));
-            int col = calculateCol(seat.substring(7));
-            int seatNumber = row * 8 + col;
-            if (seatNumber > highestSeatId) {
-                highestSeatId = seatNumber;
-            }
-        }
-        return highestSeatId;
+        return Collections.max(getOthersSeatIds());
     }
 
-    private int calculateCol(String seat) {
+    private int calculateSeatNumber(String seatId, double highRange, String lowerSymbol) {
         double lowRange = 0;
-        double upperRange = 7;
-        for (String binaryCode : seat.split("")) {
-            if (binaryCode.equals("L")) {
-                upperRange = Math.floor((lowRange + upperRange) / 2);
+        for (String binaryCode : seatId.split("")) {
+            if (binaryCode.equals(lowerSymbol)) {
+                highRange = Math.floor((lowRange + highRange) / 2);
             } else {
-                lowRange = Math.ceil((lowRange + upperRange) / 2);
-            }
-        }
-        return (int) lowRange;
-    }
-
-    private int calculateRow(String seat) {
-        double lowRange = 0;
-        double upperRange = 127;
-        for (String binaryCode : seat.split("")) {
-            if (binaryCode.equals("F")) {
-                upperRange = Math.floor((lowRange + upperRange) / 2);
-            } else {
-                lowRange = Math.ceil((lowRange + upperRange) / 2);
+                lowRange = Math.ceil((lowRange + highRange) / 2);
             }
         }
         return (int) lowRange;
@@ -57,24 +34,25 @@ public class SeatFinder {
     }
 
     public int findMySeat() {
-        List<String> seatIds = parseInput();
-        List<Integer> existed = new ArrayList<>();
-        for (String seat : seatIds) {
-            int row = calculateRow(seat.substring(0, 7));
-            int col = calculateCol(seat.substring(7));
-            int seatNumber = row * 8 + col;
-            existed.add(seatNumber);
-        }
-        return getMissingNumber(getHighestSeatId(), existed);
-    }
-
-    private int getMissingNumber(int highestSeatId, List<Integer> existed) {
-        List<Integer> seats = new ArrayList<>();
-        for (int i = 100; i <= highestSeatId; i++) {
-            if (!existed.contains(i)) {
-                return i;
+        List<Integer> occupiedSeats = getOthersSeatIds();
+        int highestSeatId = getHighestSeatId();
+        for (int seatNumber = 13; seatNumber <= highestSeatId; seatNumber++) {
+            if (!occupiedSeats.contains(seatNumber)) {
+                return seatNumber;
             }
         }
         return 0;
+    }
+
+    private List<Integer> getOthersSeatIds() {
+        List<String> seatIds = parseInput();
+        List<Integer> occupiedSeats = new ArrayList<>();
+        for (String seat : seatIds) {
+            int row = calculateSeatNumber(seat.substring(0, 7), 127, "F");
+            int col = calculateSeatNumber(seat.substring(7), 7, "L");
+            int seatNumber = row * 8 + col;
+            occupiedSeats.add(seatNumber);
+        }
+        return occupiedSeats;
     }
 }
