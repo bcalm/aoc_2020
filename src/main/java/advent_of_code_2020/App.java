@@ -3,17 +3,16 @@
  */
 package advent_of_code_2020;
 
-import advent_of_code_2020.day_3.RouteFinder;
+import advent_of_code_2020.day_5.SeatFinder;
 import advent_of_code_2020.utils.FileHelper;
 
 public class App {
 
     public static void main(String[] args) {
-        String filePath = "/Users/vikramsingh/work/advent_of_code_2020/src/main/resources/tobogganTrajectory.txt";
+        String filePath = "/Users/vikramsingh/work/advent_of_code_2020/src/main/resources/seatIds.txt";
         FileHelper fileHelper = new FileHelper(filePath);
         String inputs = fileHelper.getInputs();
-        RouteFinder routeFinder = new RouteFinder(inputs);
-        System.out.println(routeFinder.nbOfEncounteredTrees());
-
+        SeatFinder seatFinder = new SeatFinder(inputs);
+        System.out.println(seatFinder.findMySeat());
     }
 }
