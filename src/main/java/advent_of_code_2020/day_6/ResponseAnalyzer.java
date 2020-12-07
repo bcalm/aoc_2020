@@ -1,9 +1,6 @@
 package advent_of_code_2020.day_6;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class ResponseAnalyzer {
     private final String inputs;
@@ -13,22 +10,23 @@ public class ResponseAnalyzer {
     }
 
     public int getPositiveResponseCount() {
-        String[] responseList = parseInput();
-        int positiveResponses = 0;
-        for (String response : responseList) {
-            positiveResponses += getPositiveResponse(response);
-        }
-        return positiveResponses;
+        return Arrays.stream(parseInput())
+                .mapToInt(this::getPositiveResponse)
+                .sum();
     }
 
     private int getPositiveResponse(String response) {
-        return new HashSet<>(Arrays.asList(response.split(""))).size();
+        String[] indResponse = response.split("\n");
+        String[] firstPersonResponse = indResponse[0].split("");
+        return (int) Arrays.stream(firstPersonResponse)
+                .filter(e->Arrays.stream(indResponse)
+                        .allMatch(el -> el.contains(e)))
+                .count();
     }
 
     private String[] parseInput() {
         return this.inputs
                 .replace("\n\n", " ")
-                .replace("\n", "")
                 .split(" ");
     }
 }
