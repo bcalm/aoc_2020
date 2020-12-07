@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class BagContainer {
     private final String inputs;
+    private int count = 0;
 
     public BagContainer(String inputs) {
         this.inputs = inputs;
@@ -40,5 +41,24 @@ public class BagContainer {
                     rules.put(bags[0], bags[1]);
                 });
         return rules;
+    }
+
+    public int nbOfContainingBag() {
+        HashMap<String, String> bags = parseInput();
+        String containingBags = bags.get("shiny gold bags");
+        countBags(1, containingBags, bags);
+        return this.count;
+    }
+
+    private void countBags(int initCount, String containingBags, HashMap<String, String> bags) {
+        String[] containingBag = containingBags.substring(0, containingBags.length() - 1).split(", ");
+        Arrays.stream(containingBag).forEach(bagName -> {
+            if (bagName.contains("no other bags")) return;
+            int bagQuantity = Integer.parseInt(String.valueOf(bagName.charAt(0)));
+            this.count += (initCount * bagQuantity);
+            String bagType = bagQuantity == 1 ? bagName.substring(2).concat("s") : bagName.substring(2);
+            countBags(initCount * bagQuantity, bags.get(bagType), bags);
+
+        });
     }
 }

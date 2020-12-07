@@ -13,6 +13,6 @@ public class App {
         FileHelper fileHelper = new FileHelper(filePath);
         String inputs = fileHelper.getInputs();
         BagContainer bagContainer = new BagContainer(inputs);
-        System.out.println(bagContainer.nbOfBagCanContainShinyBag());
+        System.out.println(bagContainer.nbOfContainingBag());
     }
 }
