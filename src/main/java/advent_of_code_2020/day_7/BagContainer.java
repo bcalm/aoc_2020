@@ -58,7 +58,6 @@ public class BagContainer {
             this.count += (initCount * bagQuantity);
             String bagType = bagQuantity == 1 ? bagName.substring(2).concat("s") : bagName.substring(2);
             countBags(initCount * bagQuantity, bags.get(bagType), bags);
-
         });
     }
 }
