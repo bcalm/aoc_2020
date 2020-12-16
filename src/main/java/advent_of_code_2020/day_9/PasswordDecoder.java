@@ -22,8 +22,10 @@ public class PasswordDecoder {
             integerListHashMap.put(number, addNumber);
         }
 
-        return getExceptionalNumber(integerListHashMap);
+        final Long exceptionalNumber = getExceptionalNumber(integerListHashMap);
+        return getConsecutiveNumberSum(exceptionalNumber, portOutputs);
     }
+
 
     private Long getExceptionalNumber(HashMap<Long, List<Long>> integerListHashMap) {
         for (Map.Entry<Long, List<Long>> entry : integerListHashMap.entrySet()) {
@@ -52,5 +54,19 @@ public class PasswordDecoder {
                 .collect(ArrayList::new, (c, e) -> {
                     c.add(Long.parseLong(e));
                 }, ArrayList::addAll);
+    }
+
+    private Long getConsecutiveNumberSum(Long exceptionalNumber, List<Long> portOutputs) {
+        for (int i = 0; i < portOutputs.size(); i++) {
+            Long sum = 0L;
+            for (int j = i; sum < exceptionalNumber; j++) {
+                sum += portOutputs.get(j);
+                if (sum.equals(exceptionalNumber)) {
+                    final List<Long> consecutiveNumberSum = portOutputs.subList(i, j);
+                    return Collections.max(consecutiveNumberSum) + Collections.min(consecutiveNumberSum);
+                }
+            }
+        }
+        return 0L;
     }
 }
