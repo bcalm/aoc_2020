@@ -3,16 +3,16 @@
  */
 package advent_of_code_2020;
 
-import advent_of_code_2020.day_8.InstructionDecoder;
+import advent_of_code_2020.day_9.PasswordDecoder;
 import advent_of_code_2020.utils.FileHelper;
 
 public class App {
 
     public static void main(String[] args) {
-        String filePath = "/Users/vikramsingh/work/advent_of_code_2020/src/main/resources/instruction.txt";
+        String filePath = "/Users/vikramsingh/work/advent_of_code_2020/src/main/resources/encoderError.txt";
         FileHelper fileHelper = new FileHelper(filePath);
         String inputs = fileHelper.getInputs();
-        InstructionDecoder instructionDecoder = new InstructionDecoder(inputs);
-        System.out.println(instructionDecoder.getAccumulatorValue());
+        final PasswordDecoder passwordDecoder = new PasswordDecoder(inputs);
+        System.out.println(passwordDecoder.getExceptionalNumber());
     }
 }
